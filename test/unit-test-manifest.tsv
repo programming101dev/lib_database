@@ -1,0 +1,10 @@
+function	test_kind	test_source
+p101_dbm_delete	fault	test/test_fault_wrappers.c
+p101_dbm_fetch	fault	test/test_fault_wrappers.c
+p101_dbm_firstkey	fault	test/test_fault_wrappers.c
+p101_dbm_nextkey	fault	test/test_fault_wrappers.c
+p101_dbm_open	fault	test/test_fault_wrappers.c
+p101_dbm_store	fault	test/test_fault_wrappers.c
+p101_dbm_clearerr	behavior	test/test_behavior.c
+p101_dbm_close	behavior	test/test_behavior.c
+p101_dbm_error	behavior	test/test_behavior.c

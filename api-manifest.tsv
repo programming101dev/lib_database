@@ -1,0 +1,10 @@
+function	provenance	current_source	current_header	original_source	original_header	linux	macos	freebsd
+p101_dbm_clearerr	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_close	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_delete	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_error	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_fetch	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_firstkey	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_nextkey	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_open	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
+p101_dbm_store	XSI	libraries/lib_database/src/posix_xsi/ndbm.c	libraries/lib_database/include/p101_database/database.h	libraries/lib_posix_xsi/src/ndbm.c	libraries/lib_posix_xsi/include/p101_posix_xsi/p101_ndbm.h	yes	yes	yes
