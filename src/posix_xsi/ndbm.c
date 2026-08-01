@@ -23,10 +23,13 @@ void p101_dbm_clearerr(const struct p101_env *env, DBM *db)
 
 void p101_dbm_close(const struct p101_env *env, DBM *db)
 {
+    char resource_id[P101_ENV_POINTER_RESOURCE_ID_SIZE];
+
     P101_TRACE(env);
+    p101_env_pointer_resource_id(resource_id, sizeof(resource_id), db);
     errno = 0;
     dbm_close(db);
-    P101_TRACK_POINTER_RESOURCE_RELEASE(env, "ndbm-database", db, NULL);
+    P101_TRACK_RESOURCE_RELEASE(env, "ndbm-database", resource_id, NULL);
     P101_TRACE_EXIT(env);
 }
 
