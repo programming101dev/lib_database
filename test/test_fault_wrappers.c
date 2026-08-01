@@ -2,8 +2,10 @@
 #include <p101_database/database.h>
 #include <p101_env/env.h>
 #include <p101_error/error.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static int failures;
 
