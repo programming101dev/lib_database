@@ -188,7 +188,8 @@ static void test_p101_dbm_fetch(struct p101_env *env, struct p101_error *err)
         EXPECT(p101_error_is_errno(err, state.code));
         EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
         datum expected_result = ((datum){.dptr = NULL, .dsize = 0});
-        EXPECT(memcmp(&result, &expected_result, sizeof(result)) == 0);
+        EXPECT(result.dptr == expected_result.dptr);
+        EXPECT(result.dsize == expected_result.dsize);
         EXPECT(fault_resource_events == 0U);
         write_outcome("p101_dbm_fetch", "errno", error_names[index], state.code, failures == failures_before);
         p101_error_reset(err);
@@ -229,7 +230,8 @@ static void test_p101_dbm_firstkey(struct p101_env *env, struct p101_error *err)
         EXPECT(p101_error_is_errno(err, state.code));
         EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
         datum expected_result = ((datum){.dptr = NULL, .dsize = 0});
-        EXPECT(memcmp(&result, &expected_result, sizeof(result)) == 0);
+        EXPECT(result.dptr == expected_result.dptr);
+        EXPECT(result.dsize == expected_result.dsize);
         EXPECT(fault_resource_events == 0U);
         write_outcome("p101_dbm_firstkey", "errno", error_names[index], state.code, failures == failures_before);
         p101_error_reset(err);
@@ -270,7 +272,8 @@ static void test_p101_dbm_nextkey(struct p101_env *env, struct p101_error *err)
         EXPECT(p101_error_is_errno(err, state.code));
         EXPECT(errno == P101_TEST_ERRNO_SENTINEL);
         datum expected_result = ((datum){.dptr = NULL, .dsize = 0});
-        EXPECT(memcmp(&result, &expected_result, sizeof(result)) == 0);
+        EXPECT(result.dptr == expected_result.dptr);
+        EXPECT(result.dsize == expected_result.dsize);
         EXPECT(fault_resource_events == 0U);
         write_outcome("p101_dbm_nextkey", "errno", error_names[index], state.code, failures == failures_before);
         p101_error_reset(err);
