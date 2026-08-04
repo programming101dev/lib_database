@@ -38,7 +38,7 @@ int p101_dbm_delete(const struct p101_env *env, struct p101_error *err, DBM *db,
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = dbm_delete(db, key);
 
@@ -47,7 +47,7 @@ int p101_dbm_delete(const struct p101_env *env, struct p101_error *err, DBM *db,
         P101_ERROR_RAISE_ERRNO(err, dbm_error_code(errno));
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -72,7 +72,7 @@ datum p101_dbm_fetch(const struct p101_env *env, struct p101_error *err, DBM *db
     datum ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, ((datum){.dptr = NULL, .dsize = 0}));
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, ((datum){.dptr = NULL, .dsize = 0}));
     p101_dbm_clearerr(env, db);
     errno       = 0;
     ret_val     = dbm_fetch(db, key);
@@ -83,7 +83,7 @@ datum p101_dbm_fetch(const struct p101_env *env, struct p101_error *err, DBM *db
         P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -98,7 +98,7 @@ datum p101_dbm_firstkey(const struct p101_env *env, struct p101_error *err, DBM 
     datum ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, ((datum){.dptr = NULL, .dsize = 0}));
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, ((datum){.dptr = NULL, .dsize = 0}));
     p101_dbm_clearerr(env, db);
     errno       = 0;
     ret_val     = dbm_firstkey(db);
@@ -109,7 +109,7 @@ datum p101_dbm_firstkey(const struct p101_env *env, struct p101_error *err, DBM 
         P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -124,7 +124,7 @@ datum p101_dbm_nextkey(const struct p101_env *env, struct p101_error *err, DBM *
     datum ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, ((datum){.dptr = NULL, .dsize = 0}));
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, ((datum){.dptr = NULL, .dsize = 0}));
     p101_dbm_clearerr(env, db);
     errno       = 0;
     ret_val     = dbm_nextkey(db);
@@ -135,7 +135,7 @@ datum p101_dbm_nextkey(const struct p101_env *env, struct p101_error *err, DBM *
         P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -146,7 +146,7 @@ DBM *p101_dbm_open(const struct p101_env *env, struct p101_error *err, const cha
     DBM *ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, NULL);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, NULL);
     errno = 0;
 #pragma GCC diagnostic push
 #if defined(__GNUC__) && !defined(__clang__)
@@ -172,7 +172,7 @@ DBM *p101_dbm_open(const struct p101_env *env, struct p101_error *err, const cha
         P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, "ndbm-database", ret_val, 0U, file);
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
 
@@ -181,7 +181,7 @@ int p101_dbm_store(const struct p101_env *env, struct p101_error *err, DBM *db, 
     int ret_val;
 
     P101_TRACE(env);
-    P101_WRAPPER_FAULT_RETURN(env, err, -1);
+    P101_WRAPPER_FAULT_RETURN(env, err, ret_val, -1);
     errno   = 0;
     ret_val = dbm_store(db, key, content, store_mode);
 
@@ -190,6 +190,6 @@ int p101_dbm_store(const struct p101_env *env, struct p101_error *err, DBM *db, 
         P101_ERROR_RAISE_ERRNO(err, dbm_error_code(errno));
     }
 
-    P101_TRACE_EXIT(env);
+    P101_WRAPPER_DONE(env);
     return ret_val;
 }
