@@ -1,17 +1,27 @@
 #include <arpa/inet.h>
+#include <dirent.h>
 #include <errno.h>
 #include <fmtmsg.h>
 #include <fnmatch.h>
+#include <ftw.h>
+#include <limits.h>
 #include <math.h>
 #include <p101_database/database.h>
 #include <p101_env/env.h>
 #include <p101_error/error.h>
+#include <pthread.h>
+#include <search.h>
 #include <signal.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <utmpx.h>
 
 static int    failures;
 static size_t fault_resource_events;
@@ -153,6 +163,58 @@ static void test_p101_dbm_delete(struct p101_env *env, struct p101_error *err)
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
+    {
+        int   native_status = 0;
+        pid_t native_pid    = fork();
+
+        EXPECT(native_pid >= 0);
+        if(native_pid == 0)
+        {
+            struct p101_error *native_err;
+            struct p101_env   *native_env;
+
+            (void)alarm(2U);
+            (void)unsetenv("P101_CALL_LOG");
+            (void)unsetenv("P101_RESOURCE_LOG");
+            native_err = p101_error_create(false);
+            if(native_err == NULL)
+            {
+                _Exit(77);
+            }
+            native_env = p101_env_create(native_err, NULL);
+            if(native_env == NULL)
+            {
+                p101_error_destroy(native_err);
+                _Exit(77);
+            }
+            char native_argument_2_path[96];
+            DBM *native_argument_2;
+            (void)snprintf(native_argument_2_path, sizeof(native_argument_2_path), "/tmp/p101-wrapper-dbm-%ld", (long)getpid());
+            native_argument_2 = dbm_open(native_argument_2_path, O_RDWR | O_CREAT, 0600);
+            if(native_argument_2 == NULL)
+            {
+                _Exit(77);
+            }
+            int native_result = p101_dbm_delete(native_env, native_err, native_argument_2, (datum){0});
+            (void)native_result;
+            dbm_close(native_argument_2);
+            (void)unlink(native_argument_2_path);
+            (void)unlink(strcat(native_argument_2_path, ".db"));
+            p101_env_destroy(native_env);
+            p101_error_destroy(native_err);
+            _Exit(EXIT_SUCCESS);
+        }
+        if(native_pid > 0)
+        {
+            EXPECT(waitpid(native_pid, &native_status, 0) == native_pid);
+            EXPECT(WIFEXITED(native_status));
+            if(WIFEXITED(native_status))
+            {
+                EXPECT(WEXITSTATUS(native_status) == EXIT_SUCCESS);
+            }
+        }
+        p101_error_reset(err);
+    }
 }
 
 /* P101_TEST_CASE(p101_dbm_fetch) */
@@ -195,6 +257,58 @@ static void test_p101_dbm_fetch(struct p101_env *env, struct p101_error *err)
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
+    {
+        int   native_status = 0;
+        pid_t native_pid    = fork();
+
+        EXPECT(native_pid >= 0);
+        if(native_pid == 0)
+        {
+            struct p101_error *native_err;
+            struct p101_env   *native_env;
+
+            (void)alarm(2U);
+            (void)unsetenv("P101_CALL_LOG");
+            (void)unsetenv("P101_RESOURCE_LOG");
+            native_err = p101_error_create(false);
+            if(native_err == NULL)
+            {
+                _Exit(77);
+            }
+            native_env = p101_env_create(native_err, NULL);
+            if(native_env == NULL)
+            {
+                p101_error_destroy(native_err);
+                _Exit(77);
+            }
+            char native_argument_2_path[96];
+            DBM *native_argument_2;
+            (void)snprintf(native_argument_2_path, sizeof(native_argument_2_path), "/tmp/p101-wrapper-dbm-%ld", (long)getpid());
+            native_argument_2 = dbm_open(native_argument_2_path, O_RDWR | O_CREAT, 0600);
+            if(native_argument_2 == NULL)
+            {
+                _Exit(77);
+            }
+            datum native_result = p101_dbm_fetch(native_env, native_err, native_argument_2, (datum){0});
+            (void)native_result;
+            dbm_close(native_argument_2);
+            (void)unlink(native_argument_2_path);
+            (void)unlink(strcat(native_argument_2_path, ".db"));
+            p101_env_destroy(native_env);
+            p101_error_destroy(native_err);
+            _Exit(EXIT_SUCCESS);
+        }
+        if(native_pid > 0)
+        {
+            EXPECT(waitpid(native_pid, &native_status, 0) == native_pid);
+            EXPECT(WIFEXITED(native_status));
+            if(WIFEXITED(native_status))
+            {
+                EXPECT(WEXITSTATUS(native_status) == EXIT_SUCCESS);
+            }
+        }
+        p101_error_reset(err);
+    }
 }
 
 /* P101_TEST_CASE(p101_dbm_firstkey) */
@@ -237,6 +351,58 @@ static void test_p101_dbm_firstkey(struct p101_env *env, struct p101_error *err)
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
+    {
+        int   native_status = 0;
+        pid_t native_pid    = fork();
+
+        EXPECT(native_pid >= 0);
+        if(native_pid == 0)
+        {
+            struct p101_error *native_err;
+            struct p101_env   *native_env;
+
+            (void)alarm(2U);
+            (void)unsetenv("P101_CALL_LOG");
+            (void)unsetenv("P101_RESOURCE_LOG");
+            native_err = p101_error_create(false);
+            if(native_err == NULL)
+            {
+                _Exit(77);
+            }
+            native_env = p101_env_create(native_err, NULL);
+            if(native_env == NULL)
+            {
+                p101_error_destroy(native_err);
+                _Exit(77);
+            }
+            char native_argument_2_path[96];
+            DBM *native_argument_2;
+            (void)snprintf(native_argument_2_path, sizeof(native_argument_2_path), "/tmp/p101-wrapper-dbm-%ld", (long)getpid());
+            native_argument_2 = dbm_open(native_argument_2_path, O_RDWR | O_CREAT, 0600);
+            if(native_argument_2 == NULL)
+            {
+                _Exit(77);
+            }
+            datum native_result = p101_dbm_firstkey(native_env, native_err, native_argument_2);
+            (void)native_result;
+            dbm_close(native_argument_2);
+            (void)unlink(native_argument_2_path);
+            (void)unlink(strcat(native_argument_2_path, ".db"));
+            p101_env_destroy(native_env);
+            p101_error_destroy(native_err);
+            _Exit(EXIT_SUCCESS);
+        }
+        if(native_pid > 0)
+        {
+            EXPECT(waitpid(native_pid, &native_status, 0) == native_pid);
+            EXPECT(WIFEXITED(native_status));
+            if(WIFEXITED(native_status))
+            {
+                EXPECT(WEXITSTATUS(native_status) == EXIT_SUCCESS);
+            }
+        }
+        p101_error_reset(err);
+    }
 }
 
 /* P101_TEST_CASE(p101_dbm_nextkey) */
@@ -279,6 +445,58 @@ static void test_p101_dbm_nextkey(struct p101_env *env, struct p101_error *err)
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
+    {
+        int   native_status = 0;
+        pid_t native_pid    = fork();
+
+        EXPECT(native_pid >= 0);
+        if(native_pid == 0)
+        {
+            struct p101_error *native_err;
+            struct p101_env   *native_env;
+
+            (void)alarm(2U);
+            (void)unsetenv("P101_CALL_LOG");
+            (void)unsetenv("P101_RESOURCE_LOG");
+            native_err = p101_error_create(false);
+            if(native_err == NULL)
+            {
+                _Exit(77);
+            }
+            native_env = p101_env_create(native_err, NULL);
+            if(native_env == NULL)
+            {
+                p101_error_destroy(native_err);
+                _Exit(77);
+            }
+            char native_argument_2_path[96];
+            DBM *native_argument_2;
+            (void)snprintf(native_argument_2_path, sizeof(native_argument_2_path), "/tmp/p101-wrapper-dbm-%ld", (long)getpid());
+            native_argument_2 = dbm_open(native_argument_2_path, O_RDWR | O_CREAT, 0600);
+            if(native_argument_2 == NULL)
+            {
+                _Exit(77);
+            }
+            datum native_result = p101_dbm_nextkey(native_env, native_err, native_argument_2);
+            (void)native_result;
+            dbm_close(native_argument_2);
+            (void)unlink(native_argument_2_path);
+            (void)unlink(strcat(native_argument_2_path, ".db"));
+            p101_env_destroy(native_env);
+            p101_error_destroy(native_err);
+            _Exit(EXIT_SUCCESS);
+        }
+        if(native_pid > 0)
+        {
+            EXPECT(waitpid(native_pid, &native_status, 0) == native_pid);
+            EXPECT(WIFEXITED(native_status));
+            if(WIFEXITED(native_status))
+            {
+                EXPECT(WEXITSTATUS(native_status) == EXIT_SUCCESS);
+            }
+        }
+        p101_error_reset(err);
+    }
 }
 
 /* P101_TEST_CASE(p101_dbm_open) */
@@ -319,6 +537,47 @@ static void test_p101_dbm_open(struct p101_env *env, struct p101_error *err)
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
+    {
+        int   native_status = 0;
+        pid_t native_pid    = fork();
+
+        EXPECT(native_pid >= 0);
+        if(native_pid == 0)
+        {
+            struct p101_error *native_err;
+            struct p101_env   *native_env;
+
+            (void)alarm(2U);
+            (void)unsetenv("P101_CALL_LOG");
+            (void)unsetenv("P101_RESOURCE_LOG");
+            native_err = p101_error_create(false);
+            if(native_err == NULL)
+            {
+                _Exit(77);
+            }
+            native_env = p101_env_create(native_err, NULL);
+            if(native_env == NULL)
+            {
+                p101_error_destroy(native_err);
+                _Exit(77);
+            }
+            DBM *native_result = p101_dbm_open(native_env, native_err, "p101", 0, 0);
+            (void)native_result;
+            p101_env_destroy(native_env);
+            p101_error_destroy(native_err);
+            _Exit(EXIT_SUCCESS);
+        }
+        if(native_pid > 0)
+        {
+            EXPECT(waitpid(native_pid, &native_status, 0) == native_pid);
+            EXPECT(WIFEXITED(native_status));
+            if(WIFEXITED(native_status))
+            {
+                EXPECT(WEXITSTATUS(native_status) == EXIT_SUCCESS);
+            }
+        }
+        p101_error_reset(err);
+    }
 }
 
 /* P101_TEST_CASE(p101_dbm_store) */
@@ -359,6 +618,58 @@ static void test_p101_dbm_store(struct p101_env *env, struct p101_error *err)
         p101_error_reset(err);
     }
     p101_env_set_fault_injector(env, NULL, NULL);
+    {
+        int   native_status = 0;
+        pid_t native_pid    = fork();
+
+        EXPECT(native_pid >= 0);
+        if(native_pid == 0)
+        {
+            struct p101_error *native_err;
+            struct p101_env   *native_env;
+
+            (void)alarm(2U);
+            (void)unsetenv("P101_CALL_LOG");
+            (void)unsetenv("P101_RESOURCE_LOG");
+            native_err = p101_error_create(false);
+            if(native_err == NULL)
+            {
+                _Exit(77);
+            }
+            native_env = p101_env_create(native_err, NULL);
+            if(native_env == NULL)
+            {
+                p101_error_destroy(native_err);
+                _Exit(77);
+            }
+            char native_argument_2_path[96];
+            DBM *native_argument_2;
+            (void)snprintf(native_argument_2_path, sizeof(native_argument_2_path), "/tmp/p101-wrapper-dbm-%ld", (long)getpid());
+            native_argument_2 = dbm_open(native_argument_2_path, O_RDWR | O_CREAT, 0600);
+            if(native_argument_2 == NULL)
+            {
+                _Exit(77);
+            }
+            int native_result = p101_dbm_store(native_env, native_err, native_argument_2, (datum){0}, (datum){0}, 0);
+            (void)native_result;
+            dbm_close(native_argument_2);
+            (void)unlink(native_argument_2_path);
+            (void)unlink(strcat(native_argument_2_path, ".db"));
+            p101_env_destroy(native_env);
+            p101_error_destroy(native_err);
+            _Exit(EXIT_SUCCESS);
+        }
+        if(native_pid > 0)
+        {
+            EXPECT(waitpid(native_pid, &native_status, 0) == native_pid);
+            EXPECT(WIFEXITED(native_status));
+            if(WIFEXITED(native_status))
+            {
+                EXPECT(WEXITSTATUS(native_status) == EXIT_SUCCESS);
+            }
+        }
+        p101_error_reset(err);
+    }
 }
 
 int main(void)
