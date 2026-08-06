@@ -1,7 +1,7 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <limits.h>
-#include <p101_database/database.h>
+#include <p101_database/p101_ndbm.h>
 #include <p101_env/env.h>
 #include <p101_error/error.h>
 #include <stdio.h>

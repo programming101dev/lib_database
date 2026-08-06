@@ -19,10 +19,10 @@ set(BSD_STANDARD_FLAGS -D_BSD_SOURCE -D__BSD_VISIBLE)
 
 set(LIBRARY_TARGETS p101_database)
 set(p101_database_SOURCES
-        src/database.c
+        src/ndbm.c
 )
 set(p101_database_HEADERS
-        include/p101_database/database.h
+        include/p101_database/p101_ndbm.h
 )
 set(p101_database_LINK_LIBRARIES
         p101_error

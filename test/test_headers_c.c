@@ -1,4 +1,4 @@
-#include <p101_database/database.h>
+#include <p101_database/p101_ndbm.h>
 
 int main(void)
 {
