@@ -19,7 +19,7 @@ set(BSD_STANDARD_FLAGS -D_BSD_SOURCE -D__BSD_VISIBLE)
 
 set(LIBRARY_TARGETS p101_database)
 set(p101_database_SOURCES
-        src/posix_xsi/ndbm.c
+        src/database.c
 )
 set(p101_database_HEADERS
         include/p101_database/database.h

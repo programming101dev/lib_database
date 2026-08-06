@@ -78,9 +78,15 @@ datum p101_dbm_fetch(const struct p101_env *env, struct p101_error *err, DBM *db
     ret_val     = dbm_fetch(db, key);
     saved_errno = errno;
 
-    if(ret_val.dptr == NULL && p101_dbm_error(env, db) != 0)
+    if(ret_val.dptr == NULL)
     {
-        P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
+        int database_error;
+
+        database_error = p101_dbm_error(env, db);
+        if(database_error != 0)
+        {
+            P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
+        }
     }
 
     P101_WRAPPER_DONE(env);
@@ -104,9 +110,15 @@ datum p101_dbm_firstkey(const struct p101_env *env, struct p101_error *err, DBM 
     ret_val     = dbm_firstkey(db);
     saved_errno = errno;
 
-    if(ret_val.dptr == NULL && p101_dbm_error(env, db) != 0)
+    if(ret_val.dptr == NULL)
     {
-        P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
+        int database_error;
+
+        database_error = p101_dbm_error(env, db);
+        if(database_error != 0)
+        {
+            P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
+        }
     }
 
     P101_WRAPPER_DONE(env);
@@ -130,9 +142,15 @@ datum p101_dbm_nextkey(const struct p101_env *env, struct p101_error *err, DBM *
     ret_val     = dbm_nextkey(db);
     saved_errno = errno;
 
-    if(ret_val.dptr == NULL && p101_dbm_error(env, db) != 0)
+    if(ret_val.dptr == NULL)
     {
-        P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
+        int database_error;
+
+        database_error = p101_dbm_error(env, db);
+        if(database_error != 0)
+        {
+            P101_ERROR_RAISE_ERRNO(err, dbm_error_code(saved_errno));
+        }
     }
 
     P101_WRAPPER_DONE(env);
