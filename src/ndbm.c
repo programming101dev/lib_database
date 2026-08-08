@@ -40,10 +40,17 @@ void p101_dbm_clearerr(const struct p101_env *env, DBM *db)
 
 void p101_dbm_close(const struct p101_env *env, DBM *db)
 {
+    char resource_id[P101_ENV_POINTER_RESOURCE_ID_SIZE];
+
     P101_TRACE(env);
+    /*
+     * dbm_close frees the object, so the pointer value is indeterminate by the time
+     * the release record is written. Spell the id while it is still valid.
+     */
+    p101_env_pointer_resource_id(resource_id, sizeof(resource_id), db);
     errno = 0;
     dbm_close(db);
-    P101_TRACK_POINTER_RESOURCE_RELEASE(env, P101_RESOURCE_CLASS_NDBM_DATABASE, db, NULL);
+    P101_TRACK_RESOURCE_RELEASE(env, P101_RESOURCE_CLASS_NDBM_DATABASE, resource_id, NULL);
     P101_TRACE_EXIT(env);
 }
 
