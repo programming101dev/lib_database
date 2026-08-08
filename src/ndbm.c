@@ -15,6 +15,7 @@
  */
 
 #include "p101_database/p101_ndbm.h"
+#include <p101_env/resource_classes.h>
 #include <p101_env/wrapper.h>
 
 static int dbm_error_code(int saved_errno);
@@ -39,13 +40,10 @@ void p101_dbm_clearerr(const struct p101_env *env, DBM *db)
 
 void p101_dbm_close(const struct p101_env *env, DBM *db)
 {
-    char resource_id[P101_ENV_POINTER_RESOURCE_ID_SIZE];
-
     P101_TRACE(env);
-    p101_env_pointer_resource_id(resource_id, sizeof(resource_id), db);
     errno = 0;
     dbm_close(db);
-    P101_TRACK_RESOURCE_RELEASE(env, "ndbm-database", resource_id, NULL);
+    P101_TRACK_POINTER_RESOURCE_RELEASE(env, P101_RESOURCE_CLASS_NDBM_DATABASE, db, NULL);
     P101_TRACE_EXIT(env);
 }
 
@@ -203,7 +201,7 @@ DBM *p101_dbm_open(const struct p101_env *env, struct p101_error *err, const cha
     }
     else
     {
-        P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, "ndbm-database", ret_val, 0U, file);
+        P101_TRACK_POINTER_RESOURCE_ACQUIRE(env, P101_RESOURCE_CLASS_NDBM_DATABASE, ret_val, 0U, file);
     }
 
     P101_WRAPPER_DONE(env);
