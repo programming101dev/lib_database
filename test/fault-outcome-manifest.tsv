@@ -1,0 +1,7 @@
+function	function_usr	domain	symbol_header	linux_faults	macos_faults	freebsd_faults	posix_faults	linux_conditional	macos_conditional	freebsd_conditional
+p101_dbm_delete	c:@F@p101_dbm_delete	errno	errno.h	EIO	EIO	EIO	EIO			
+p101_dbm_fetch	c:@F@p101_dbm_fetch	errno	errno.h	EIO	EIO	EIO	EIO			
+p101_dbm_firstkey	c:@F@p101_dbm_firstkey	errno	errno.h	EIO	EIO	EIO	EIO			
+p101_dbm_nextkey	c:@F@p101_dbm_nextkey	errno	errno.h	EIO	EIO	EIO	EIO			
+p101_dbm_open	c:@F@p101_dbm_open	errno	errno.h	EIO	EIO	EIO	EIO			
+p101_dbm_store	c:@F@p101_dbm_store	errno	errno.h	EIO	EIO	EIO	EIO			
